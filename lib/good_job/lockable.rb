@@ -24,7 +24,7 @@ module GoodJob
 
     included do
       # Default column to be used when creating Advisory Locks
-      class_attribute :advisory_lockable_column, instance_accessor: false, default: Concurrent::Delay.new { primary_key }
+      class_attribute :advisory_lockable_column, instance_accessor: false, default: nil
 
       # Default Postgres function to be used for Advisory Locks
       class_attribute :advisory_lockable_function, default: "pg_try_advisory_lock"
@@ -161,10 +161,8 @@ module GoodJob
         end
       end
 
-      # Allow advisory_lockable_column to be a `Concurrent::Delay`
       def _advisory_lockable_column
-        column = advisory_lockable_column
-        column.respond_to?(:value) ? column.value : column
+        advisory_lockable_column || primary_key
       end
 
       def supports_cte_materialization_specifiers?
@@ -217,7 +215,9 @@ module GoodJob
                 SQL
               end
 
-      binds = [[nil, key]]
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new('key', key, ActiveRecord::Type::String.new),
+      ]
       self.class.connection.exec_query(pg_or_jdbc_query(query), 'GoodJob::Lockable Advisory Lock', binds).first['locked']
     end
 
@@ -231,7 +231,9 @@ module GoodJob
       query = <<~SQL.squish
         SELECT #{function}(('x'||substr(md5($1::text), 1, 16))::bit(64)::bigint) AS unlocked
       SQL
-      binds = [[nil, key]]
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new('key', key, ActiveRecord::Type::String.new),
+      ]
       self.class.connection.exec_query(pg_or_jdbc_query(query), 'GoodJob::Lockable Advisory Unlock', binds).first['unlocked']
     end
 
@@ -281,7 +283,10 @@ module GoodJob
           AND pg_locks.classid = ('x' || substr(md5($1::text), 1, 16))::bit(32)::int
           AND pg_locks.objid = (('x' || substr(md5($2::text), 1, 16))::bit(64) << 32)::bit(32)::int
       SQL
-      binds = [[nil, key], [nil, key]]
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new('key', key, ActiveRecord::Type::String.new),
+        ActiveRecord::Relation::QueryAttribute.new('key', key, ActiveRecord::Type::String.new),
+      ]
       self.class.connection.exec_query(pg_or_jdbc_query(query), 'GoodJob::Lockable Advisory Locked?', binds).any?
     end
 
@@ -305,7 +310,10 @@ module GoodJob
           AND pg_locks.objid = (('x' || substr(md5($2::text), 1, 16))::bit(64) << 32)::bit(32)::int
           AND pg_locks.pid = pg_backend_pid()
       SQL
-      binds = [[nil, key], [nil, key]]
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new('key', key, ActiveRecord::Type::String.new),
+        ActiveRecord::Relation::QueryAttribute.new('key', key, ActiveRecord::Type::String.new),
+      ]
       self.class.connection.exec_query(pg_or_jdbc_query(query), 'GoodJob::Lockable Owns Advisory Lock?', binds).any?
     end
 

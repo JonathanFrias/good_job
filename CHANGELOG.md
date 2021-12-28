@@ -1,5 +1,59 @@
 # Changelog
 
+## [v2.7.4](https://github.com/bensheldon/good_job/tree/v2.7.4) (2021-12-16)
+
+[Full Changelog](https://github.com/bensheldon/good_job/compare/v2.7.3...v2.7.4)
+
+**Closed issues:**
+
+- Add nonce: true to engine views  [\#467](https://github.com/bensheldon/good_job/issues/467)
+- Updating good\_job breaks my Rails 7 alpha 2 local development [\#462](https://github.com/bensheldon/good_job/issues/462)
+
+**Merged pull requests:**
+
+- Add nonce: true to javascript\_include\_tag in dashboard [\#468](https://github.com/bensheldon/good_job/pull/468) ([bouk](https://github.com/bouk))
+- Update appraisal for Rails 7.0.0.rc1 [\#466](https://github.com/bensheldon/good_job/pull/466) ([bensheldon](https://github.com/bensheldon))
+
+## [v2.7.3](https://github.com/bensheldon/good_job/tree/v2.7.3) (2021-11-30)
+
+[Full Changelog](https://github.com/bensheldon/good_job/compare/v2.7.2...v2.7.3)
+
+**Fixed bugs:**
+
+- Logger error on 2.7.2 [\#463](https://github.com/bensheldon/good_job/issues/463)
+- Fix Railtie configuration assignment when Rails configuration is a Hash, not an OrderedOptions [\#464](https://github.com/bensheldon/good_job/pull/464) ([bensheldon](https://github.com/bensheldon))
+
+## [v2.7.2](https://github.com/bensheldon/good_job/tree/v2.7.2) (2021-11-29)
+
+[Full Changelog](https://github.com/bensheldon/good_job/compare/v2.7.1...v2.7.2)
+
+**Implemented enhancements:**
+
+- Allow GoodJob global configuration accessors to also be set via Rails config hash [\#460](https://github.com/bensheldon/good_job/pull/460) ([bensheldon](https://github.com/bensheldon))
+
+**Merged pull requests:**
+
+- Use `ActiveRecord::Relation::QueryAttribute` when setting up bindings for `exec_query` [\#461](https://github.com/bensheldon/good_job/pull/461) ([bensheldon](https://github.com/bensheldon))
+- Configure RSpec `config.example_status_persistence_file_path` [\#459](https://github.com/bensheldon/good_job/pull/459) ([bensheldon](https://github.com/bensheldon))
+- Defer async initialization until Rails fully initialized [\#454](https://github.com/bensheldon/good_job/pull/454) ([bensheldon](https://github.com/bensheldon))
+
+## [v2.7.1](https://github.com/bensheldon/good_job/tree/v2.7.1) (2021-11-26)
+
+[Full Changelog](https://github.com/bensheldon/good_job/compare/v2.7.0...v2.7.1)
+
+**Fixed bugs:**
+
+- Unclear error when database can't be reached [\#457](https://github.com/bensheldon/good_job/issues/457)
+- Remove Concurrent::Delay wrapping of database-loading methods [\#458](https://github.com/bensheldon/good_job/pull/458) ([bensheldon](https://github.com/bensheldon))
+- Do not delete csp policies when checking csp policies [\#456](https://github.com/bensheldon/good_job/pull/456) ([JonathanFrias](https://github.com/JonathanFrias))
+
+**Closed issues:**
+
+- How to suppress job scheduler logs? [\#455](https://github.com/bensheldon/good_job/issues/455)
+- Configuration in environments/\*.rb overrides application.rb [\#453](https://github.com/bensheldon/good_job/issues/453)
+- Testing jobs synchronously [\#435](https://github.com/bensheldon/good_job/issues/435)
+- HTTP health check endpoint [\#403](https://github.com/bensheldon/good_job/issues/403)
+
 ## [v2.7.0](https://github.com/bensheldon/good_job/tree/v2.7.0) (2021-11-10)
 
 [Full Changelog](https://github.com/bensheldon/good_job/compare/v2.6.2...v2.7.0)
